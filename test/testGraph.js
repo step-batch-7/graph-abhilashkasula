@@ -2,9 +2,9 @@ const {assert} = require('chai');
 const {bfs} = require('../src/graph');
 
 describe('bfs', () => {
-  it('should give true for the same source and target present in pairs', () => {
+  it('should give false for the same source and target present in pairs', () => {
     const pairs = [[5, 6]];
-    assert.isTrue(bfs(pairs, 5, 5));
+    assert.isFalse(bfs(pairs, 5, 5));
   });
 
   it('should give true for the source and the target present in same pair', () => {
