@@ -11,8 +11,8 @@ const bfs = function (pairs, source, target) {
     const current = toVisit.shift();
     visited.push(current);
     if (current === target) return true;
-    const sourcePairs = pairs.filter(pair => pair[0] === current);
-    sourcePairs.forEach(pair => {
+    const sourcePairs = pairs.filter((pair) => pair[0] === current);
+    sourcePairs.forEach((pair) => {
       !visited.includes(pair[1]) &&
         !toVisit.includes(pair[1]) &&
         toVisit.push(pair[1]);

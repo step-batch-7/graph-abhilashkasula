@@ -6,4 +6,8 @@ describe('bfs', () => {
     const pairs = [[5, 6]];
     assert.isTrue(bfs(pairs, 5, 5));
   });
+
+  it('should give true for the source and the target present in same pair', () => {
+    assert.isTrue(bfs([[5, 6]], 5, 6));
+  });
 });
