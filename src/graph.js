@@ -7,22 +7,18 @@
 const bfs = function (pairs, source, target) {
   const visited = [];
   const toVisit = [source];
-  let isFound = false;
   while (toVisit.length != 0) {
     const current = toVisit.shift();
     visited.push(current);
-    if (current === target) {
-      isFound = true;
-      break;
-    }
-    const sourcePair = pairs.find((pair) => pair[0] === current);
-    if (sourcePair) {
-      !visited.includes(sourcePair[1]) &&
-        !toVisit.includes(sourcePair[1]) &&
-        toVisit.push(sourcePair[1]);
-    }
+    if (current === target) return true;
+    const sourcePairs = pairs.filter(pair => pair[0] === current);
+    sourcePairs.forEach(pair => {
+      !visited.includes(pair[1]) &&
+        !toVisit.includes(pair[1]) &&
+        toVisit.push(pair[1]);
+    });
   }
-  return isFound;
+  return false;
 };
 
 module.exports = {bfs};
