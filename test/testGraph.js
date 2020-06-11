@@ -2,6 +2,29 @@ const {assert} = require('chai');
 const {bfs} = require('../src/graph');
 
 describe('bfs', () => {
+  const pairs = [
+    [ 'mm', 'cc' ], [ 'mm', 'kk' ], [ 'mm', 'hh' ],
+    [ 'mm', 'll' ], [ 'aa', 'aa' ], [ 'aa', 'll' ],
+    [ 'aa', 'ee' ], [ 'dd', 'aa' ], [ 'dd', 'dd' ],
+    [ 'dd', 'ff' ], [ 'dd', 'gg' ], [ 'dd', 'kk' ],
+    [ 'dd', 'hh' ], [ 'dd', 'll' ], [ 'ii', 'ff' ],
+    [ 'ii', 'bb' ], [ 'ii', 'kk' ], [ 'ff', 'mm' ],
+    [ 'ff', 'ii' ], [ 'ff', 'ff' ], [ 'ff', 'cc' ],
+    [ 'ff', 'kk' ], [ 'ff', 'll' ], [ 'bb', 'aa' ],
+    [ 'bb', 'bb' ], [ 'gg', 'cc' ], [ 'gg', 'hh' ],
+    [ 'gg', 'ee' ], [ 'cc', 'ff' ], [ 'cc', 'bb' ],
+    [ 'cc', 'gg' ], [ 'cc', 'cc' ], [ 'cc', 'll' ],
+    [ 'cc', 'ee' ], [ 'kk', 'mm' ], [ 'kk', 'aa' ],
+    [ 'kk', 'dd' ], [ 'kk', 'bb' ], [ 'kk', 'ee' ],
+    [ 'hh', 'dd' ], [ 'hh', 'gg' ], [ 'hh', 'hh' ],
+    [ 'hh', 'ee' ], [ 'jj', 'mm' ], [ 'jj', 'dd' ],
+    [ 'jj', 'gg' ], [ 'jj', 'kk' ], [ 'jj', 'hh' ],
+    [ 'jj', 'jj' ], [ 'jj', 'll' ], [ 'll', 'ff' ],
+    [ 'll', 'bb' ], [ 'ee', 'aa' ], [ 'ee', 'ii' ],
+    [ 'ee', 'gg' ], [ 'ee', 'cc' ], [ 'ee', 'kk' ],
+    [ 'ee', 'hh' ], [ 'ee', 'ee' ]
+  ];
+
   it('should give false for the same source and target when the node doesn\'t have the same node edge ', () => {
     const pairs = [[5, 6]];
     assert.isFalse(bfs(pairs, 5, 5));
@@ -24,7 +47,19 @@ describe('bfs', () => {
     assert.isTrue(bfs([[5, 6], [6, 7], [6, 8]], 5, 8));
   });
 
-  it('should give false for the path not found between two nodes', () => {
+  it('should give false for source doesn\'t have outgoing edges', () => {
     assert.isFalse(bfs([[5, 6], [6, 7], [6, 8]], 7, 8));
+  });
+
+  it('should give false for target doesn\'t have source\'s outgoing edge', () => {
+    assert.isFalse(bfs([[5, 6], [6, 7], [8, 8]], 5, 8));
+  });
+
+  it('should give false for path not found for 13 nodes', () => {
+    assert.isFalse(bfs(pairs, 'bb', 'jj'));
+  });
+
+  it('should give true for path found for 13 nodes', () => {
+    assert.isTrue(bfs(pairs, 'jj', 'aa'));
   });
 });
