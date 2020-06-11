@@ -17,15 +17,15 @@ const parse = (pairs) => {
 
 const bfs = function (pairs, source, target) {
   const graph = parse(pairs);
-  const visited = [];
+  const visited = new Set();
   const toVisit = graph[source] ? graph[source].slice() : [];
   while (toVisit.length) {
     const current = toVisit.shift();
-    visited.push(current);
+    visited.add(current);
     if (current === target) return true;
     const edges = graph[current];
     edges && edges.forEach(edge =>
-          !visited.includes(edge) &&
+          !visited.has(edge) &&
           !toVisit.includes(edge) &&
           toVisit.push(edge));
   }
