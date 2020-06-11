@@ -39,6 +39,10 @@ describe('bfs', () => {
     assert.isTrue(bfs([[5, 6]], 5, 6));
   });
 
+  it('should give false for two nodes not connected', () => {
+    assert.isFalse(bfs([[5, 5], [6, 6]], 5, 6));
+  });
+
   it('should give true for the path found with in two pairs', () => {
     assert.isTrue(bfs([[5, 6], [6, 7]], 5, 7));
   });
@@ -61,5 +65,10 @@ describe('bfs', () => {
 
   it('should give true for path found for 13 nodes', () => {
     assert.isTrue(bfs(pairs, 'jj', 'aa'));
+  });
+
+  it('should give false for source or target not present', () => {
+    assert.isFalse(bfs([[5, 6]], 5, 8));
+    assert.isFalse(bfs([[5, 6]], 8, 6));
   });
 });
