@@ -7,7 +7,7 @@
 const getEdges = (pairs, node) => pairs.filter(pair => pair[0] === node);
 
 const bfs = function (pairs, source, target) {
-  const visited = [source];
+  const visited = [];
   const toVisit = getEdges(pairs, source).map(pair => pair[1]);
   while (toVisit.length != 0) {
     const current = toVisit.shift();
