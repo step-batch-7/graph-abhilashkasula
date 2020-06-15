@@ -32,4 +32,28 @@ const bfs = function (pairs, source, target) {
   return false;
 };
 
-module.exports = {bfs};
+const dfs = function(graph, source, target, visited) {
+  const edges = graph[source] || [];
+  visited.add(source);
+  if(edges.includes(target)) return true;
+  const nonVisitedEdges = edges.filter(edge => !visited.has(edge));
+  return nonVisitedEdges.some(edge => dfs(graph, edge, target, visited));
+};
+
+const findPath = function(graph, source, target, visited) {
+  const edges = graph[source] || [];
+  visited.add(source);
+  if(edges.includes(target)) {
+    return [source, target];
+  }
+  const nonVisitedEdges = edges.filter(edge => !visited.has(edge));
+  return nonVisitedEdges.reduce((path, edge) => {
+    const subPath = findPath(graph, edge, target, visited);
+    if(subPath.length) {
+      return [source].concat(subPath);
+    }
+    return path;
+  }, []);
+};
+
+module.exports = {bfs, dfs, findPath};
