@@ -1,5 +1,5 @@
 const {assert} = require('chai');
-const {bfs, dfs} = require('../src/graph');
+const {bfs, dfs, findPath} = require('../src/graph');
 
 describe('bfs', () => {
   const pairs = [
@@ -82,7 +82,6 @@ describe('dfs', () => {
     assert.isTrue(dfs({'5': [5]}, 5, 5, new Set));
   });
 
-
   it('should give true for node is connected to another is same pair', () => {
     assert.isTrue(dfs({'5': [6]}, 5, 6, new Set));
   });
@@ -97,5 +96,40 @@ describe('dfs', () => {
 
   it('should give false for target doesn\'t have source outgoing edge', () => {
     assert.isFalse(dfs({'5': [6], '6': [7], '8': [9]}, 5, 9, new Set));
+  });
+
+  it('should give true for all the nodes having circular dependency', () => {
+    assert.isTrue(dfs({'1': [2], '2': [3], '3': [4], '4': [1]}, 4, 3, new Set));
+  });
+});
+
+describe('findPath', () => {
+  it('should give empty array for the node not connected to itself', () => {
+    assert.deepStrictEqual(findPath({'5': [6]}, 5, 5, new Set()), []);
+  });
+
+  it('should give array with source and target for the node connected to itself', () => {
+    assert.deepStrictEqual(findPath({'5': [5]}, 5, 5, new Set()), [5, 5]);
+  });
+
+  it('should give array with source and target for the node connected to target in same pair', () => {
+    assert.deepStrictEqual(findPath({'5': [6]}, 5, 6, new Set()), [5, 6]);
+  });
+
+  it('should give empty array for source and target are not connected in two pairs', () => {
+    assert.deepStrictEqual(findPath({'5': [6], '7': [8]}, 5, 8, new Set()), []);
+  });
+
+  it('should give path for source and target are not connected in three pairs', () => {
+    assert.deepStrictEqual(findPath({'5': [6], '6': [7], '7': [8]}, 5, 8, new Set()), [5, 6, 7, 8]);
+  });
+
+  it('should give path for source and target are in circular dependency', () => {
+    assert.deepStrictEqual(findPath({'5': [6], '6': [7], '7': [5]}, 7, 6, new Set()), [7, 5, 6]);
+  });
+
+  it('should give empty array for the target or source not in graph', () => {
+    assert.deepStrictEqual(findPath({'5': [6]}, 5, 7, new Set()), []);
+    assert.deepStrictEqual(findPath({'5': [6]}, 4, 6, new Set()), []);
   });
 });
