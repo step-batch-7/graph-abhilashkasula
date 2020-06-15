@@ -1,5 +1,5 @@
 const {assert} = require('chai');
-const {bfs} = require('../src/graph');
+const {bfs, dfs} = require('../src/graph');
 
 describe('bfs', () => {
   const pairs = [
@@ -70,5 +70,32 @@ describe('bfs', () => {
   it('should give false for source or target not present', () => {
     assert.isFalse(bfs([[5, 6]], 5, 8));
     assert.isFalse(bfs([[5, 6]], 8, 6));
+  });
+});
+
+describe('dfs', () => {
+  it('should give false for node is not connected to itself', () => {
+    assert.isFalse(dfs({'5': [6]}, 5, 5, new Set));
+  });
+
+  it('should give true for node is connected to itself', () => {
+    assert.isTrue(dfs({'5': [5]}, 5, 5, new Set));
+  });
+
+
+  it('should give true for node is connected to another is same pair', () => {
+    assert.isTrue(dfs({'5': [6]}, 5, 6, new Set));
+  });
+
+  it('should give false for two nodes not connect in two pairs', () => {
+    assert.isFalse(dfs({'5': [6], '7': [8]}, 5, 7, new Set));
+  });
+
+  it('should give true for path found  in three pairs', () => {
+    assert.isTrue(dfs({'5': [6], '6': [7], '7': [8]}, 5, 8, new Set));
+  });
+
+  it('should give false for target doesn\'t have source outgoing edge', () => {
+    assert.isFalse(dfs({'5': [6], '6': [7], '8': [9]}, 5, 9, new Set));
   });
 });
